@@ -1,0 +1,5 @@
+export type Property = { id: string; address: string; city: string; postcode: string; council: string; rooms: number; occupied: number; roomRent: number; headRent: number; expenses: number; landlord: string; image: string; compliance: string; leaseEnd: string; certificates?:{kind:string;expires:string}[] };
+export const money = (n: number) => new Intl.NumberFormat('en-GB', {style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n);
+export const spread = (p: Pick<Property,'occupied'|'roomRent'|'headRent'|'expenses'>) => p.occupied * p.roomRent - p.headRent - p.expenses;
+export const totals = (ps: Property[]) => ps.reduce((a,p)=>({revenue:a.revenue+p.occupied*p.roomRent,cost:a.cost+p.headRent+p.expenses,net:a.net+spread(p),occupied:a.occupied+p.occupied,rooms:a.rooms+p.rooms}),{revenue:0,cost:0,net:0,occupied:0,rooms:0});
+export function daysUntil(date: string, now = new Date()) { return Math.ceil((new Date(date+'T00:00:00').getTime()-new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime())/86400000); }

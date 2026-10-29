@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.env.local
+*.tsbuildinfo
+*.tar.gz
+
+.vercel/
+supabase/.temp/

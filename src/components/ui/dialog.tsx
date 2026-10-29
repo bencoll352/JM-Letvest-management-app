@@ -1,0 +1,4 @@
+'use client';
+import * as Dialog from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
+export function Modal({open,onClose,title,description,children}:{open:boolean;onClose:()=>void;title:string;description?:string;children:React.ReactNode}) {return <Dialog.Root open={open} onOpenChange={v=>!v&&onClose()}><Dialog.Portal><Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm"/><Dialog.Content className="modal"><Dialog.Title className="text-xl font-semibold text-slate-900">{title}</Dialog.Title><Dialog.Description className="mt-1 mb-6 text-sm text-slate-500">{description||'Manage your JM Letvest portfolio.'}</Dialog.Description><Dialog.Close aria-label="Close" className="absolute right-5 top-5 p-1"><X size={19}/></Dialog.Close>{children}</Dialog.Content></Dialog.Portal></Dialog.Root>}
