@@ -1,0 +1,104 @@
+{
+  "schema": "ai-employee/1",
+  "slug": "jm-rent-finance-controller",
+  "name": "Rent and Finance Controller",
+  "role": "Rent and Finance Controller",
+  "version": "1.0.0",
+  "standard": "1.5",
+  "repository": "https://github.com/bencoll352/AI-Employee",
+  "license": "UNLICENSED",
+  "requires": {
+    "node": ">=24.19.0",
+    "harness": [
+      "antigravity",
+      "claude-code",
+      "codex",
+      "openclaw"
+    ]
+  },
+  "governance": {
+    "readOnlyByDefault": true,
+    "outboundRequiresApproval": true,
+    "alwaysRequireSolicitorCheck": true,
+    "solicitorCheckTopics": [
+      "money",
+      "arrears",
+      "legal_notice",
+      "eviction",
+      "deposit",
+      "tenancy_wording",
+      "landlord_statement"
+    ],
+    "requireCitations": true,
+    "refuseOnMissingData": true,
+    "killSwitchFile": "PAUSED"
+  },
+  "limits": {
+    "maxSteps": 8,
+    "maxDelegation": 1,
+    "maxDepth": 1,
+    "maxTokensPerRun": 10000,
+    "maxCostPerRunGbp": 0.4,
+    "maxDailySpendGbp": 1.25
+  },
+  "allowedTools": {
+    "read": [
+      "knowledge.search",
+      "overdue_rent",
+      "void_rooms",
+      "property_pnl"
+    ],
+    "draft": [
+      "deliverable.write",
+      "create_draft_message",
+      "create_landlord_statement"
+    ]
+  },
+  "connections": [
+    {
+      "capability": "supabase.rpc.read",
+      "providers": [
+        "jm-letvest-supabase-rls"
+      ],
+      "required": true,
+      "readonly": true
+    },
+    {
+      "capability": "approval.queue.draft",
+      "providers": [
+        "ai-employee-sqlite"
+      ],
+      "required": true,
+      "readonly": false
+    }
+  ],
+  "routines": [
+    {
+      "id": "jm-monday-arrears",
+      "days": "off",
+      "target_days": "mon",
+      "timezone": "Europe/London",
+      "fire": "08:30",
+      "window_start": "08:15",
+      "window_end": "12:00",
+      "period_key": "YYYY-Www",
+      "budget": "15 min",
+      "browser": "never"
+    }
+  ],
+  "files": {
+    "kit": [
+      "ROLE.md",
+      "employee.json",
+      "routines/**",
+      "examples/**"
+    ],
+    "merge": [
+      "../SCHEDULE.md"
+    ],
+    "member": [
+      "../../PAUSED",
+      "../../state/**"
+    ]
+  }
+}

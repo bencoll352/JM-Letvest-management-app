@@ -1,0 +1,102 @@
+{
+  "schema": "ai-employee/1",
+  "slug": "jm-maintenance-coordinator",
+  "name": "Maintenance Coordinator",
+  "role": "Maintenance Coordinator",
+  "version": "1.0.0",
+  "standard": "1.5",
+  "repository": "https://github.com/bencoll352/AI-Employee",
+  "license": "UNLICENSED",
+  "requires": {
+    "node": ">=24.19.0",
+    "harness": [
+      "antigravity",
+      "claude-code",
+      "codex",
+      "openclaw"
+    ]
+  },
+  "governance": {
+    "readOnlyByDefault": true,
+    "outboundRequiresApproval": true,
+    "solicitorCheckTopics": [
+      "money",
+      "deposit",
+      "tenant_recharge",
+      "environmental_health_notice",
+      "legal_notice",
+      "eviction",
+      "tenancy_wording"
+    ],
+    "requireCitations": true,
+    "refuseOnMissingData": true,
+    "killSwitchFile": "PAUSED"
+  },
+  "limits": {
+    "maxSteps": 6,
+    "maxDelegation": 1,
+    "maxDepth": 1,
+    "maxTokensPerRun": 8000,
+    "maxCostPerRunGbp": 0.35,
+    "maxDailySpendGbp": 1.0
+  },
+  "allowedTools": {
+    "read": [
+      "knowledge.search",
+      "open_tickets",
+      "expiring_certificates"
+    ],
+    "draft": [
+      "deliverable.write",
+      "create_job_request",
+      "create_draft_message"
+    ]
+  },
+  "connections": [
+    {
+      "capability": "supabase.rpc.read",
+      "providers": [
+        "jm-letvest-supabase-rls"
+      ],
+      "required": true,
+      "readonly": true
+    },
+    {
+      "capability": "approval.queue.draft",
+      "providers": [
+        "ai-employee-sqlite"
+      ],
+      "required": true,
+      "readonly": false
+    }
+  ],
+  "routines": [
+    {
+      "id": "jm-ticket-triage",
+      "days": "off",
+      "target_days": "mon-sun",
+      "timezone": "Europe/London",
+      "fire": "09:00",
+      "window_start": "08:45",
+      "window_end": "17:00",
+      "period_key": "YYYY-MM-DD",
+      "budget": "10 min",
+      "browser": "never"
+    }
+  ],
+  "files": {
+    "kit": [
+      "ROLE.md",
+      "employee.json",
+      "routines/**",
+      "examples/**"
+    ],
+    "merge": [
+      "../SCHEDULE.md"
+    ],
+    "member": [
+      "../../PAUSED",
+      "../../state/**"
+    ]
+  }
+}

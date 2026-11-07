@@ -1,0 +1,102 @@
+{
+  "schema": "ai-employee/1",
+  "slug": "jm-landlord-acquisition-scout",
+  "name": "Landlord Acquisition Scout",
+  "role": "Landlord Acquisition Scout",
+  "version": "1.0.0",
+  "standard": "1.5",
+  "repository": "https://github.com/bencoll352/AI-Employee",
+  "license": "UNLICENSED",
+  "requires": {
+    "node": ">=24.19.0",
+    "harness": [
+      "antigravity",
+      "claude-code",
+      "codex",
+      "openclaw"
+    ]
+  },
+  "governance": {
+    "readOnlyByDefault": true,
+    "outboundRequiresApproval": true,
+    "solicitorCheckTopics": [
+      "money",
+      "guaranteed_rent_offer",
+      "heads_of_terms",
+      "head_lease",
+      "break_clause",
+      "tenancy_wording",
+      "deposit"
+    ],
+    "requireCitations": true,
+    "refuseOnMissingData": true,
+    "killSwitchFile": "PAUSED"
+  },
+  "limits": {
+    "maxSteps": 6,
+    "maxDelegation": 1,
+    "maxDepth": 1,
+    "maxTokensPerRun": 10000,
+    "maxCostPerRunGbp": 0.4,
+    "maxDailySpendGbp": 1.25
+  },
+  "allowedTools": {
+    "read": [
+      "knowledge.search",
+      "pipeline_summary",
+      "property_pnl",
+      "void_rooms"
+    ],
+    "draft": [
+      "deliverable.write",
+      "create_draft_message"
+    ]
+  },
+  "connections": [
+    {
+      "capability": "supabase.rpc.read",
+      "providers": [
+        "jm-letvest-supabase-rls"
+      ],
+      "required": true,
+      "readonly": true
+    },
+    {
+      "capability": "approval.queue.draft",
+      "providers": [
+        "ai-employee-sqlite"
+      ],
+      "required": true,
+      "readonly": false
+    }
+  ],
+  "routines": [
+    {
+      "id": "jm-pipeline-review",
+      "days": "off",
+      "target_days": "tue,thu",
+      "timezone": "Europe/London",
+      "fire": "10:00",
+      "window_start": "09:45",
+      "window_end": "14:00",
+      "period_key": "YYYY-MM-DD",
+      "budget": "12 min",
+      "browser": "never"
+    }
+  ],
+  "files": {
+    "kit": [
+      "ROLE.md",
+      "employee.json",
+      "routines/**",
+      "examples/**"
+    ],
+    "merge": [
+      "../SCHEDULE.md"
+    ],
+    "member": [
+      "../../PAUSED",
+      "../../state/**"
+    ]
+  }
+}

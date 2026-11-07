@@ -1,0 +1,101 @@
+{
+  "schema": "ai-employee/1",
+  "slug": "jm-receptionist",
+  "name": "Receptionist",
+  "role": "Receptionist",
+  "version": "1.0.0",
+  "standard": "1.5",
+  "repository": "https://github.com/bencoll352/AI-Employee",
+  "license": "UNLICENSED",
+  "requires": {
+    "node": ">=24.19.0",
+    "harness": [
+      "antigravity",
+      "claude-code",
+      "codex",
+      "openclaw"
+    ]
+  },
+  "governance": {
+    "readOnlyByDefault": true,
+    "outboundRequiresApproval": true,
+    "sopsOnly": true,
+    "solicitorCheckTopics": [
+      "money",
+      "arrears",
+      "legal_notice",
+      "eviction",
+      "deposit",
+      "tenancy_wording"
+    ],
+    "requireCitations": true,
+    "refuseOnMissingData": true,
+    "killSwitchFile": "PAUSED"
+  },
+  "limits": {
+    "maxSteps": 5,
+    "maxDelegation": 0,
+    "maxDepth": 1,
+    "maxTokensPerRun": 6000,
+    "maxCostPerRunGbp": 0.25,
+    "maxDailySpendGbp": 0.75
+  },
+  "allowedTools": {
+    "read": [
+      "knowledge.search",
+      "open_tickets",
+      "void_rooms"
+    ],
+    "draft": [
+      "deliverable.write",
+      "create_draft_message"
+    ]
+  },
+  "connections": [
+    {
+      "capability": "supabase.rpc.read",
+      "providers": [
+        "jm-letvest-supabase-rls"
+      ],
+      "required": true,
+      "readonly": true
+    },
+    {
+      "capability": "approval.queue.draft",
+      "providers": [
+        "ai-employee-sqlite"
+      ],
+      "required": true,
+      "readonly": false
+    }
+  ],
+  "routines": [
+    {
+      "id": "jm-enquiry-triage",
+      "days": "off",
+      "target_days": "mon-sun",
+      "timezone": "Europe/London",
+      "fire": "09:30",
+      "window_start": "08:30",
+      "window_end": "18:00",
+      "period_key": "YYYY-MM-DD",
+      "budget": "8 min",
+      "browser": "never"
+    }
+  ],
+  "files": {
+    "kit": [
+      "ROLE.md",
+      "employee.json",
+      "routines/**",
+      "examples/**"
+    ],
+    "merge": [
+      "../SCHEDULE.md"
+    ],
+    "member": [
+      "../../PAUSED",
+      "../../state/**"
+    ]
+  }
+}
