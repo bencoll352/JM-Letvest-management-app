@@ -6,4 +6,5 @@ out/
 *.tar.gz
 
 .vercel/
+.firebase/
 supabase/.temp/
